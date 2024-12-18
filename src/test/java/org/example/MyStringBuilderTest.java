@@ -43,4 +43,22 @@ class MyStringBuilderTest {
         }
         assertEquals(expected, builder.toString());
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Hello, Hello World, Hello, ''",
+            "A,B,A,''",
+            "12345, 67890, 12345, ''"
+    })
+    void testUndoSequence(String first, String second, String expectedAfterUndo, String expectedFinal) {
+        MyStringBuilder builder = new MyStringBuilder();
+        builder.append(first);
+        builder.append(second);
+        builder.undo();
+        assertEquals(expectedAfterUndo, builder.toString());
+
+        builder.undo();
+        assertEquals(expectedFinal, builder.toString());
+    }
+
 }
