@@ -3,35 +3,10 @@ package org.example;
 import java.util.Arrays;
 import java.util.Stack;
 
-class Main {
-    public static void main(String[] args) {
-        MyStringBuilder builder = new MyStringBuilder();
-
-        builder.append("Hello");
-        System.out.println("After append: " + builder);
-
-        builder.append(" World");
-        System.out.println("After append: " + builder);
-
-        builder.undo();
-        System.out.println("After undo: " + builder);
-
-        builder.reverse();
-        System.out.println("After reverse: " + builder);
-
-        builder.clear();
-        System.out.println("After clear: " + builder);
-
-        builder.undo();
-        System.out.println("After undo: " + builder);
-    }
-
-}
-
 class MyStringBuilder {
     private char[] buffer;
     private int size;
-    private Stack<Snapshot> history;
+    private final Stack<Snapshot> history;
 
     public MyStringBuilder() {
         this.buffer = new char[16];
@@ -91,8 +66,8 @@ class MyStringBuilder {
     public void undo() {
         if(!history.isEmpty()) {
             Snapshot snapshot = history.pop();
-            this.buffer = snapshot.getState();
-            this.size = snapshot.getSize();
+            this.buffer = snapshot.state();
+            this.size = snapshot.size();
         } else {
             System.out.println("Nothing to undo.");
         }
@@ -108,19 +83,9 @@ class MyStringBuilder {
     }
 }
 
-class Snapshot {
-    private final char[] state;
-    private final int size;
-
+record Snapshot(char[] state, int size) {
     Snapshot(char[] state, int size) {
         this.state = Arrays.copyOf(state, size);
         this.size = size;
-    }
-    public char[] getState() {
-        return state;
-    }
-
-    public int getSize() {
-        return size;
     }
 }

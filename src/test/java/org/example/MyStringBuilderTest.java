@@ -25,8 +25,7 @@ class MyStringBuilderTest {
     })
     void testReverse(String input, String expected) {
         MyStringBuilder builder = new MyStringBuilder();
-        builder.append(input);
-        builder.reverse();
+        builder.append(input).reverse();
         assertEquals(expected, builder.toString());
     }
 
@@ -52,9 +51,7 @@ class MyStringBuilderTest {
     })
     void testUndoSequence(String first, String second, String expectedAfterUndo, String expectedFinal) {
         MyStringBuilder builder = new MyStringBuilder();
-        builder.append(first);
-        builder.append(second);
-        builder.undo();
+        builder.append(first).append(second).undo();
         assertEquals(expectedAfterUndo, builder.toString());
 
         builder.undo();
